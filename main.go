@@ -23,7 +23,12 @@ func main() {
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "text/html; charset=utf-8",blackfriday.MarkdownCommon([]byte("hi<br>hi")))
+		 yourHtmlString := "<html><body>I am cached HTML!<br>Hi<br></body></html>"
+
+		//Write your 200 header status (or other status codes, but only WriteHeader once)
+		c.Writer.WriteHeader(http.StatusOK)
+		//Convert your cached html string to byte array
+		c.Writer.Write([]byte(yourHtmlString))
 	})
 
 	router.Run(":" + port)
