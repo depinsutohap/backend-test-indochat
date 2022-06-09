@@ -4,9 +4,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-
+	
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
+	"github.com/russross/blackfriday"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+		c.String(http.StatusOK, string(blackfriday.Run([]byte("**hi!**"))))
 	})
 
 	router.Run(":" + port)
